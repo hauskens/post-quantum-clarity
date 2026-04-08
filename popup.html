@@ -1,0 +1,71 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; script-src 'self';" />
+    <style>
+      body { font-family: sans-serif; width: 320px; margin: 0; padding: 12px; }
+      .header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+      .header-left { display: flex; align-items: center; gap: 6px; }
+      .header-left img { width: 24px; height: 24px; object-fit: contain; }
+      h1 { font-size: 14px; margin: 0; }
+      .help { position: relative; color: #888; font-size: 12px; cursor: help;
+              width: 16px; height: 16px; border-radius: 50%; border: 1px solid #bbb;
+              display: inline-flex; align-items: center; justify-content: center; }
+      .help .tip { display: none; position: absolute; right: 0; top: 20px;
+                   width: 220px; padding: 8px; background: #333; color: #fff;
+                   font-size: 11px; border-radius: 4px; z-index: 10; line-height: 1.4; }
+      .help:hover .tip, .help:focus .tip { display: block; }
+      .help a { color: #9cf; }
+      .status { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+      .dot { width: 16px; height: 16px; border-radius: 50%; }
+      .green { background: #2ecc40; }
+      .yellow { background: #ffdc00; }
+      .red { background: #ff4136; }
+      .gray { background: #aaa; }
+      .tabs { display: flex; gap: 4px; margin-bottom: 0; }
+      .tab { flex: 1; padding: 6px 8px; font-size: 12px; text-align: center;
+             background: #f4f4f4; border: 1px solid #ddd; border-bottom: none;
+             cursor: pointer; border-radius: 4px 4px 0 0; user-select: none; }
+      .tab b { font-variant-numeric: tabular-nums; }
+      .tab.active { background: #fff; font-weight: bold; }
+      .tab[data-tab="safe"].active { color: #1b7a2a; }
+      .tab[data-tab="unsafe"].active { color: #a30000; }
+      ul { list-style: none; padding: 0; margin: 0; max-height: 240px; overflow-y: auto;
+           font-size: 11px; border: 1px solid #ddd; }
+      li { padding: 4px 0; border-bottom: 1px solid #eee; }
+      li.safe { color: #1b7a2a; }
+      li.unsafe { color: #a30000; }
+      .url { display: block; word-break: break-all; }
+      .group { color: #555; font-style: italic; }
+      .groups { font-size: 11px; color: #333; margin-bottom: 10px; }
+      .chip { display: inline-block; padding: 2px 6px; margin: 2px 4px 2px 0;
+              border-radius: 10px; background: #eee; font-family: monospace; }
+      .chip.safe { background: #d6f5dc; color: #1b7a2a; }
+      .chip.unsafe { background: #fde0e0; color: #a30000; }
+    </style>
+  </head>
+  <body>
+    <div class="header">
+      <div class="header-left">
+        <img src="logo.png" alt="" />
+        <h1>Post-Quantum Clarity</h1>
+      </div>
+      <span class="help" tabindex="0">?<span class="tip">To verify the extension is working, visit
+        <a href="https://pq.cloudflareresearch.com" target="_blank" rel="noopener">pq.cloudflareresearch.com</a>
+        — requests there should appear as safe.</span></span>
+    </div>
+    <div class="status">
+      <div id="dot" class="dot gray"></div>
+      <div id="label">No HTTPS traffic seen</div>
+    </div>
+    <div class="groups" id="groups"></div>
+    <div class="tabs">
+      <div class="tab" data-tab="unsafe">Unsafe: <b id="unsafe">0</b></div>
+      <div class="tab" data-tab="safe">Safe: <b id="safe">0</b></div>
+      <div class="tab" data-tab="all">Total: <b id="total">0</b></div>
+    </div>
+    <ul id="list"></ul>
+    <script src="popup.js"></script>
+  </body>
+</html>

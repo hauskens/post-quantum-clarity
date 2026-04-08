@@ -1,0 +1,34 @@
+{
+  "manifest_version": 2,
+  "name": "Post-Quantum Clarity",
+  "version": "0.1",
+  "description": "Checks whether HTTPS requests use post-quantum safe key exchange algorithms",
+  "author": "Hausken",
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "@hausken-pq-checker",
+      "data_collection_permissions": {
+        "required": ["none"]
+      }
+    }
+  },
+  "permissions": [
+    "webRequest",
+    "webRequestBlocking",
+    "tabs",
+    "<all_urls>"
+  ],
+  "background": {
+    "scripts": ["background.js"]
+  },
+  "icons": {
+    "200": "logo.png"
+  },
+  "browser_action": {
+    "default_title": "Post-Quantum Clarity",
+    "default_icon": {
+      "200": "logo.png"
+    },
+    "default_popup": "popup.html"
+  }
+}
