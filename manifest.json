@@ -15,6 +15,7 @@
   "permissions": [
     "webRequest",
     "webRequestBlocking",
+    "webNavigation",
     "tabs",
     "<all_urls>"
   ],

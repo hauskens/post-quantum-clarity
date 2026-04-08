@@ -54,16 +54,18 @@ async function render() {
 
   const groupsEl = document.getElementById("groups");
   groupsEl.innerHTML = "";
-  const seen = new Map(); // name -> {safe, count}
+  // Bucket by display name + PQ classification so mixed "(unknown)" rows don't merge incorrectly.
+  const seen = new Map();
   for (const r of lastStats.requests) {
     const name = r.group || "(unknown)";
-    const entry = seen.get(name) || { safe: r.safe, count: 0 };
+    const key = `${name}\0${r.safe}`;
+    const entry = seen.get(key) || { name, safe: r.safe, count: 0 };
     entry.count++;
-    seen.set(name, entry);
+    seen.set(key, entry);
   }
   if (seen.size > 0) {
     groupsEl.appendChild(document.createTextNode("Detected groups: "));
-    for (const [name, { safe, count }] of seen) {
+    for (const { name, safe, count } of seen.values()) {
       const chip = document.createElement("span");
       chip.className = "chip " + (safe ? "safe" : "unsafe");
       chip.textContent = `${name} ×${count}`;
@@ -82,3 +84,10 @@ for (const el of document.querySelectorAll(".tab")) {
 }
 
 render();
+
+const POLL_MS = 750;
+const pollId = setInterval(render, POLL_MS);
+document.addEventListener("visibilitychange", () => {
+  if (document.visibilityState === "visible") render();
+});
+window.addEventListener("unload", () => clearInterval(pollId));
